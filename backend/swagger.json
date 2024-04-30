@@ -1,0 +1,118 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+      "title": "PZ Cheeseria API",
+      "version": "1.0.0",
+      "description": "an API showing crud operations."
+  },
+  "servers": [
+      { "url": "http://localhost:3001", "description": "The Local server" }
+  ],
+  "paths": {
+      "/cheeses": {
+          "get": {
+              "summary": "Get a list of cheeses",
+              "responses": {
+                  "200": {
+                      "description": "A list of cheeses",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/Cheese"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "post": {
+              "summary": "Add a new cheese",
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/Cheese"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "201": {
+                      "description": "Cheese added successfully"
+                  },
+                  "400": {
+                      "description": "Invalid input"
+                  }
+              }
+          }
+      },
+      "/cheeses/{id}": {
+          "put": {
+              "summary": "Update a cheese",
+              "parameters": [
+                  {
+                      "in": "path",
+                      "name": "id",
+                      "required": true,
+                      "schema": { "type": "integer" }
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/Cheese"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Cheese updated successfully"
+                  },
+                  "400": {
+                      "description": "Invalid input"
+                  }
+              }
+          },
+          "delete": {
+              "summary": "Delete a cheese",
+              "parameters": [
+                  {
+                      "in": "path",
+                      "name": "id",
+                      "required": true,
+                      "schema": { "type": "integer" }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Cheese deleted successfully"
+                  },
+                  "404": {
+                      "description": "Cheese not found"
+                  }
+              }
+          }
+      }
+  },
+  "components": {
+      "schemas": {
+          "Cheese": {
+              "type": "object",
+              "properties": {
+                  "id": { "type": "integer" },
+                  "name": { "type": "string" },
+                  "price": { "type": "integer" },
+                  "color": { "type": "string" },
+                  "image": { "type": "string" }
+              }
+          }
+      }
+  }
+}

@@ -1,0 +1,38 @@
+version: '4'
+
+services: 
+
+  back-end:
+    build:
+      context: ./backend
+    container_name: back-end
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    ports: 
+      - "3001:3001"
+    command: npm run start
+
+
+  front-end:
+    build: 
+      context: ./frontend
+    container_name: front-end
+    working_dir: /app
+    volumes: 
+      - ./frontend:/app
+      - /app/node_modules
+    ports: 
+      - "3000:3000"
+    command: npm run start
+    
+  nginx:
+    build: 
+      context: ./nginx
+    container_name: nginx
+    ports: 
+      - "8000:80"
+    depends_on:
+       - back-end
+       - front-end
